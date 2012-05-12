@@ -20,11 +20,24 @@ class PostsController < ApplicationController
       render :action => 'new'
     end
   end
+
   def edit
     @post = Post.find(params[:id])
   end
 
   def update
+    @post = Post.find(params[:id])
+    if @post.update_attributes(params[:post])
+      redirect_to posts_path, :notice => '更新された'
+    else
+      render :action => 'edit'
+    end
+  end
 
+  def destroy
+    @post = Post.find(params[:id])
+    @post.destroy
+#    render :json => { :post => @post }
+    redirect_to posts_path
   end
 end

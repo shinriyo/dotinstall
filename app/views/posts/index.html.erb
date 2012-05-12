@@ -6,6 +6,8 @@
   <li><%= post.title %>
   <%= link_to post.title, post_path(post) %>
   <%= link_to '編集', edit_post_path(post) %>
+  <%= link_to '削除', post, :confirm => '消すよ?',
+                              :method => :delete %>
   </li>
 <% end %>
 </ul>
@@ -13,9 +15,14 @@
 <%= link_to 'ホーム', posts_path %> | <%= link_to '新しいダジャレ', new_post_path %>
 
 <script>
-$(function() {
-  setTimeout(function() {
-    $('#notice').fadeOut("slow");
-  }, 800);
-});
-</script>
+  $(function() {
+      setTimeout(function() {
+            $('#notice').fadeOut("slow");
+              }, 800);
+                
+                $('a[data-method="delete"]').live('ajax:success', function(e, data, status, xhr) {
+                      $('#post_'+data.post.id).fadeOut("slow");
+                        });
+                          
+                      });
+                    </script>
