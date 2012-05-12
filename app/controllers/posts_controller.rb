@@ -20,4 +20,11 @@ class PostsController < ApplicationController
       render :action => 'new'
     end
   end
+  def edit
+    @post = Post.find(params[:id])
+  end
+
+  def update
+
+  end
 end
