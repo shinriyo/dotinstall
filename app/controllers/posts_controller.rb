@@ -6,6 +6,7 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
+    @comment = Post.find(params[:id]).comments.build
   end
 
   def new
@@ -37,7 +38,7 @@ class PostsController < ApplicationController
   def destroy
     @post = Post.find(params[:id])
     @post.destroy
-#    render :json => { :post => @post }
-    redirect_to posts_path
+    render :json => { :post => @post }
+#    redirect_to posts_path
   end
 end

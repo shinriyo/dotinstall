@@ -4,7 +4,7 @@
 <ul>
 <% @posts.each do |post| %>
   <li><%= post.title %>
-  <%= link_to post.title, post_path(post) %>
+  <%= link_to post.title, post_path(post) %> (<%= post.comments.size %>)
   <%= link_to '編集', edit_post_path(post) %>
   <%= link_to '削除', post, :confirm => '消すよ?',
                               :method => :delete %>
@@ -16,13 +16,11 @@
 
 <script>
   $(function() {
-      setTimeout(function() {
-            $('#notice').fadeOut("slow");
-              }, 800);
-                
-                $('a[data-method="delete"]').live('ajax:success', function(e, data, status, xhr) {
-                      $('#post_'+data.post.id).fadeOut("slow");
-                        });
-                          
-                      });
-                    </script>
+    setTimeout(function() {
+      $('#notice').fadeOut("slow");
+    }, 800);
+    $('a[data-method="delete"]').live('ajax:success', function(e, data, status, xhr) {
+      $('#post_'+data.post.id).fadeOut("slow");
+    });
+  });
+</script>

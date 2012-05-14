@@ -1,5 +1,52 @@
 <h1><%= @post.title %></h1>
 
-<%= @post.content %>
+<p><%= @post.content %>
+<h2>評価</h2>
+<ul>
+<% if @post.comments.any? %>
+  <% @post.comments.each do |comment| %>
+    <li id="comment_<%= comment.id %>">
+    <%= comment.body %>(by <%= comment.commenter %>)
+    <%= link_to 'delete', [comment.post, comment], :confirm => '消しますね？',
+      :method => :delete,
+      :remote => true %>
+    </li>
+  <% end %>
+  <% else %>
+    <li>まだコメントがないよ</li>
+<% end %>
+</ul>
 
-<%= link_to 'home', posts_path %>
+<h2>コメントを追加するよ</h2>
+<% if @comment.errors.any? %>
+  <ul>
+    <% @comment.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_for([@post, @comment]) do |f| %>
+<div class="field">
+  <%= f.label :commenter %>
+  <%= f.text_field :commenter %>
+</div>
+<div class="field">
+  <%= f.label :body %>
+  <%= f.text_area :body, :rows => 5 %>
+</div>
+
+<div class="actions">
+  <%= f.submit %>
+</div>
+
+<% end %>
+<%= link_to 'ホーム', posts_path %>
+
+<script>
+  $(function() {
+    $('a[data-method="delete"]').live('ajax:success', function(e, data, status, xhr) {
+      $('#comment_'+data.comment.id).fadeOut("slow");
+    });
+  });
+</script>

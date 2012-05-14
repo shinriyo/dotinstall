@@ -1,11 +1,17 @@
 Blog::Application.routes.draw do
-#  root :to => 'post#index'
-  resources :posts
+  #resources :posts
 
-  resources :posts, :only => [:index, :create]
+  #resources :posts, :only => [:index, :create]
+  #root :to => 'posts#index'
+  #resources :posts, :only => [:index, :create]
+  #root :controller => 'posts', :action => 'index'
+
+  resources :posts do
+    resources :comments
+  end
+    
   root :to => 'posts#index'
-  resources :posts, :only => [:index, :create]
-  root :controller => 'posts', :action => 'index'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
